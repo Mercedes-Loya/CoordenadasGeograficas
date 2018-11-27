@@ -5,6 +5,8 @@
  */
 package com.mloya.controlador;
 
+import com.mloya.modelo.Cilindro;
+import com.mloya.modelo.Circulo;
 import com.mloya.modelo.Punto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -15,7 +17,14 @@ import javax.swing.JOptionPane;
  */
 public class Coordinador {
     ArrayList<Punto> puntos=new ArrayList<Punto>();
+    ArrayList<Circulo>circulos=new ArrayList<Circulo>();
+    ArrayList<Cilindro>cilindros=new ArrayList<Cilindro>();
     
+    public Punto getPunto(){
+        int posicion=Integer.parseInt(JOptionPane.showInputDialog(imprimirPuntos()+ "Ingrese un punto"));
+        return puntos.get(posicion);
+    }
+     
     public void almacenarPuntos(Punto p){
        
         p.setX(Integer.parseInt(JOptionPane.showInputDialog("Ingresa x")));
@@ -44,7 +53,11 @@ public class Coordinador {
                                     +"3.- Redefinir Ubicación \n"
                                     +"4.- Calcular distancia a la torre de control \n"
                                     +"5.-Imprimir Puntos \n"
-                                    +"6.- Salir"));
+                                    +"6.-Ingresar Circulo \n"
+                                    +"7.-Mofificar Circulo\n"
+                                    +"8.-Ingresar Cilindro\n"
+                                    +"9.-Imprimir Todo\n"
+                                    +"10.- Salir"));
                 switch(op){
                 case 1:
                     ingresarPuntos();
@@ -66,7 +79,15 @@ public class Coordinador {
                     break;
                     
                 case 6:
+                    ingresarCirculo();
                     break;
+                    
+                case 7:
+                    modificarCirculo();
+                            break;
+               
+                case 9:
+                    imprimirTodo();
             }
                 
             } catch (Exception e) {
@@ -74,7 +95,7 @@ public class Coordinador {
             }
             
              
-        }while(op!=6);
+        }while(op!=10);
    
    
     }
@@ -101,5 +122,43 @@ public class Coordinador {
         
 
     }
-    
+    public void ingresarCirculo(){
+        circulos.add(new Circulo(getPunto(), 10));
+        JOptionPane.showMessageDialog(null, imprimirCirculo());
+    }
+    public String imprimirCirculo(){
+        String datos ="";
+        for (Circulo circulo: circulos) {
+            datos += "\n"+circulo;
+            
+        }
+        return datos;
+    }
+    public Circulo getCirculo(){
+        int posicion= Integer.parseInt(JOptionPane.showInputDialog( imprimirPuntos()+"Ingresa posicion"))-1;
+        return circulos.get(posicion);
+    }
+    public void modificarCirculo(){
+//        getCirculo().setP(p);
+//        JOptionPane.showMessageDialog(null, imprimirCirculo());
+        JOptionPane.showInputDialog(null, imprimirPuntos()+"\n"+ imprimirCirculo());
+        getCirculo().setP(getPunto());
+        circulos.add(getCirculo());
+        
+    }
+    public Cilindro getCilindro(){
+        int posicion= Integer.parseInt(JOptionPane.showInputDialog( imprimirCirculo()+"Ingresa posicion"))-1;
+        return cilindros.get(posicion);
+    }
+    public String imprimirCilindro(){
+        String datos =" ";
+        for (Cilindro cilindro: cilindros) {
+            datos += cilindro+"\n";
+            
+        }
+        return datos;
+    }
+    public void imprimirTodo(){
+        JOptionPane.showMessageDialog(null, imprimirCirculo()+"\n"+imprimirPuntos()+"\n"+imprimirCilindro());
+    }
 }
